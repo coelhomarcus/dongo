@@ -15,6 +15,7 @@ const createWindow = () => {
         minWidth: 1024,
         minHeight: 700,
         autoHideMenuBar: true,
+        icon: path.join(__dirname, "../assets/icon.ico"),
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             nodeIntegration: false,
@@ -25,7 +26,15 @@ const createWindow = () => {
     if (process.env.VITE_DEV_SERVER_URL) {
         win.loadURL(process.env.VITE_DEV_SERVER_URL);
     } else {
-        win.loadFile(path.join(__dirname, "../dist/index.html"));
+        const isPackaged = app.isPackaged;
+
+        if (isPackaged) {
+            // Em produção empacotada
+            win.loadFile(path.join(__dirname, "../dist/index.html"));
+        } else {
+            // Em desenvolvimento
+            win.loadFile(path.join(__dirname, "../dist/index.html"));
+        }
     }
 };
 

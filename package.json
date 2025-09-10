@@ -10,11 +10,15 @@
         "lint": "eslint .",
         "preview": "vite preview",
         "electron:dev": "npm run build && electron .",
-        "electron:watch": "vite --watch"
+        "electron:watch": "vite --watch",
+        "make": "electron-forge make",
+        "start": "electron-forge start",
+        "package": "electron-forge package"
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.1.13",
         "axios": "^1.11.0",
+        "electron-squirrel-startup": "^1.0.1",
         "react": "^19.1.1",
         "react-dom": "^19.1.1",
         "react-icons": "^5.5.0",
@@ -22,6 +26,15 @@
         "tailwindcss": "^4.1.13"
     },
     "devDependencies": {
+        "@electron-forge/cli": "^7.9.0",
+        "@electron-forge/maker-deb": "^7.9.0",
+        "@electron-forge/maker-rpm": "^7.9.0",
+        "@electron-forge/maker-squirrel": "^7.9.0",
+        "@electron-forge/maker-zip": "^7.9.0",
+        "@electron-forge/plugin-auto-unpack-natives": "^7.9.0",
+        "@electron-forge/plugin-fuses": "^7.9.0",
+        "@electron-forge/publisher-github": "^7.9.0",
+        "@electron/fuses": "^1.8.0",
         "@eslint/js": "^9.33.0",
         "@types/react": "^19.1.10",
         "@types/react-dom": "^19.1.7",
@@ -36,5 +49,48 @@
         "vite": "^7.1.2",
         "vite-plugin-electron": "^0.29.0",
         "vite-plugin-electron-renderer": "^0.14.6"
+    },
+    "config": {
+        "forge": {
+            "packagerConfig": {
+                "asar": true,
+                "icon": "./assets/icon.ico",
+                "extraResources": [
+                    "./assets"
+                ]
+            },
+            "makers": [
+                {
+                    "name": "@electron-forge/maker-squirrel",
+                    "config": {
+                        "name": "dongo",
+                        "authors": "Marcus Coelho",
+                        "description": "API client simples feito com Electron e React",
+                        "exe": "dongo.exe",
+                        "setupIcon": "./assets/icon.ico"
+                    }
+                },
+                {
+                    "name": "@electron-forge/maker-zip",
+                    "platforms": [
+                        "win32"
+                    ]
+                },
+                {
+                    "name": "@electron-forge/maker-deb",
+                    "config": {}
+                },
+                {
+                    "name": "@electron-forge/maker-rpm",
+                    "config": {}
+                }
+            ],
+            "plugins": [
+                {
+                    "name": "@electron-forge/plugin-auto-unpack-natives",
+                    "config": {}
+                }
+            ]
+        }
     }
 }
