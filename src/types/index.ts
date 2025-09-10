@@ -15,3 +15,10 @@ export interface QueryParam {
     value: string;
     enabled: boolean;
 }
+
+export interface HeaderItem {
+    id: string;
+    name: string;
+    value: string;
+    enabled: boolean;
+}
