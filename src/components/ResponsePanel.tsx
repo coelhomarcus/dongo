@@ -3,6 +3,8 @@ import type { ApiResponse } from "../types/index";
 import JSONPretty from "react-json-pretty";
 import "react-json-pretty/themes/monikai.css";
 
+import { ImSpinner3 } from "react-icons/im";
+
 interface ResponsePanelProps {
     response: ApiResponse | null;
     loading: boolean;
@@ -35,7 +37,9 @@ const ResponsePanel = ({ response, loading }: ResponsePanelProps) => {
         <div className="bg-[#202020] border border-[#303030] rounded h-full max-h-screen grid grid-rows-[auto_auto_1fr]">
             {loading ? (
                 <div className="flex items-center justify-center col-span-full row-span-full">
-                    <div>Carregando...</div>
+                    <div className="animate-spin">
+                        <ImSpinner3 className="w-6 h-6 text-[#5D5D5D]" />
+                    </div>
                 </div>
             ) : response ? (
                 <>
@@ -61,12 +65,12 @@ const ResponsePanel = ({ response, loading }: ResponsePanelProps) => {
                     </div>
 
                     {/* Abas da resposta */}
-                    <div className="flex border-b border-[#303030]">
+                    <div className="flex">
                         {["Response", "Headers"].map((tab) => (
                             <button
                                 key={tab}
                                 className={`px-4 py-2 text-sm transition-colors cursor-pointer ${
-                                    responseTab === tab ? "text-white" : "text-[#5D5D5D] hover:text-white"
+                                    responseTab === tab ? "text-white" : "text-[#5D5D5D] hover:text-neutral-300"
                                 }`}
                                 onClick={() => setResponseTab(tab)}
                             >
@@ -100,8 +104,14 @@ const ResponsePanel = ({ response, loading }: ResponsePanelProps) => {
                     </div>
                 </>
             ) : (
-                <div className="flex items-center justify-center col-span-full row-span-full text-[#5D5D5D]">
-                    Faça uma requisição para ver a resposta
+                <div className="flex items-center justify-center col-span-full row-span-full text-xs text-[#5D5D5D] border-[#5D5D5D]">
+                    <div className="text-center flex flex-col gap-3">
+                        <div className="mb-2">Send Request</div>
+                        <div>
+                            <span className="border rounded-sm p-1 border-b-3 font-bold">Ctrl</span> +{" "}
+                            <span className="border rounded-sm p-1 border-b-3 font-bold">Enter</span>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

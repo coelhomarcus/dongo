@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Sidebar from "./Sidebar/Sidebar";
+// import Sidebar from "./Sidebar/Sidebar";
 import Header from "./Header/Header";
 import RequestBar from "./components/RequestBar";
 import TabSystem from "./components/TabSystem";
@@ -10,7 +10,6 @@ const App = () => {
     const [method, setMethod] = useState("GET");
     const [requestData, setRequestData] = useState("");
 
-    // Usar hooks customizados
     const { queryParams, addQueryParam, updateQueryParam, removeQueryParam } = useQueryParams();
     const { headers, addHeader, updateHeader, removeHeader } = useHeaders();
     const { baseUrl, setBaseUrl, displayUrl, setDisplayUrl, normalizeUrl, updateDisplayUrl } = useUrlManager();
@@ -33,11 +32,11 @@ const App = () => {
 
     return (
         <div className="text-white">
-            <Header displayUrl={displayUrl} />
+            <Header />
             <div className="flex">
-                <Sidebar />
-                <div className="grid grid-cols-2 w-full min-h-[calc(100vh-60px)]">
-                    <div id="left" className="p-4">
+                {/* <Sidebar /> */}
+                <div className="grid grid-cols-2 w-full min-h-[calc(100vh-50px)]">
+                    <div id="left" className="p-4 h-full">
                         <RequestBar
                             method={method}
                             onMethodChange={setMethod}
@@ -64,7 +63,7 @@ const App = () => {
                         />
                     </div>
 
-                    <div id="right" className="p-4 h-[calc(100vh-80px)]">
+                    <div id="right" className="p-4 h-full">
                         <ResponsePanel response={response} loading={loading} />
                     </div>
                 </div>

@@ -11,9 +11,9 @@ let win: BrowserWindow | null = null;
 const createWindow = () => {
     win = new BrowserWindow({
         width: 1200,
-        height: 800,
+        height: 720,
         minWidth: 1024,
-        minHeight: 720,
+        minHeight: 700,
         autoHideMenuBar: true,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),

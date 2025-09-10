@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useTabs = (initialTab: string = "Body") => {
+export const useTabs = (initialTab: string = "Params") => {
     const [activeTab, setActiveTab] = useState(initialTab);
 
     return {

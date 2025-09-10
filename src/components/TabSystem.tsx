@@ -45,7 +45,7 @@ const TabSystem = ({
                         className={`py-2 text-sm font-medium transition-colors cursor-pointer ${
                             activeTab === tab
                                 ? "text-white"
-                                : "border-transparent text-[#3C3A3A] hover:text-white"
+                                : "border-transparent text-[#5D5D5D] hover:text-neutral-300"
                         }`}
                         onClick={() => onTabChange(tab)}
                     >

@@ -1,4 +1,5 @@
 import { IoSend } from "react-icons/io5";
+import { useEffect } from "react";
 
 interface RequestBarProps {
     method: string;
@@ -10,6 +11,20 @@ interface RequestBarProps {
 }
 
 const RequestBar = ({ method, onMethodChange, displayUrl, onUrlChange, onSendRequest, loading }: RequestBarProps) => {
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.ctrlKey && event.key === "Enter" && !loading) {
+                event.preventDefault();
+                onSendRequest();
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [onSendRequest, loading]);
     return (
         <div id="request-bar" className="flex items-center space-x-2 mb-4">
             <select
@@ -51,13 +66,20 @@ const RequestBar = ({ method, onMethodChange, displayUrl, onUrlChange, onSendReq
                     placeholder="https://coelhomarcus.com"
                     value={displayUrl}
                     onChange={(e) => onUrlChange(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && !loading) {
+                            e.preventDefault();
+                            onSendRequest();
+                        }
+                    }}
                 />
                 <button
                     className="text-white px-3 py-2 rounded mr-1 cursor-pointer disabled:opacity-50"
                     onClick={onSendRequest}
                     disabled={loading}
+                    title="Enviar requisição (Ctrl+Enter)"
                 >
-                    <IoSend className="text-neutral-300 hover:text-white" />
+                    <IoSend className="text-neutral-500 hover:text-white" />
                 </button>
             </div>
         </div>
