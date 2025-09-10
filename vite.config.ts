@@ -9,8 +9,17 @@ export default defineConfig({
     plugins: [
         react(),
         tailwindcss(),
-        electron({
-            entry: "electron/main.ts", // seu processo main
-        }),
+        electron([
+            {
+                entry: "electron/main.ts", // seu processo main
+            },
+            // {
+            //     entry: "electron/preload.ts", // preload script
+            //     onstart(options) {
+            //         // Rebuild preload script on change
+            //         options.reload();
+            //     },
+            // },
+        ]),
     ],
 });
