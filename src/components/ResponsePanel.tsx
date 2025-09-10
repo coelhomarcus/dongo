@@ -34,7 +34,7 @@ const ResponsePanel = ({ response, loading }: ResponsePanelProps) => {
     };
 
     return (
-        <div className="bg-[#202020] border border-[#303030] rounded h-full max-h-screen grid grid-rows-[auto_auto_1fr]">
+        <div className="bg-[#202020] border border-[#303030] rounded h-[calc(100vh-90px)] max-h-screen grid grid-rows-[auto_auto_1fr]">
             {loading ? (
                 <div className="flex items-center justify-center col-span-full row-span-full">
                     <div className="animate-spin">
