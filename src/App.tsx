@@ -25,7 +25,8 @@ const App = () => {
     // Atualizar a URL exibida sempre que os parâmetros mudarem
     useEffect(() => {
         try {
-            const enabledParams = queryParams.filter(param => param.enabled && param.name.trim() && param.value.trim());
+            // Filtrar parâmetros habilitados que tenham pelo menos o nome preenchido
+            const enabledParams = queryParams.filter(param => param.enabled && param.name.trim());
             
             if (enabledParams.length > 0 && baseUrl.trim()) {
                 const urlObj = new URL(baseUrl);
@@ -35,7 +36,9 @@ const App = () => {
                 
                 // Adicionar novos parâmetros
                 enabledParams.forEach(param => {
-                    urlObj.searchParams.append(param.name.trim(), param.value.trim());
+                    const paramName = param.name.trim();
+                    const paramValue = param.value.trim() || ''; // Usar string vazia se não houver valor
+                    urlObj.searchParams.append(paramName, paramValue);
                 });
                 
                 setDisplayUrl(urlObj.toString());
@@ -199,10 +202,10 @@ const App = () => {
                                 {["Params", "Body", "Headers"].map((tab) => (
                                     <button
                                         key={tab}
-                                        className={`py-2 text-sm font-medium transition-colors ${
+                                        className={`py-2 text-sm font-medium transition-colors cursor-pointer ${
                                             activeTab === tab
                                                 ? 'text-white'
-                                                : 'border-transparent text-gray-400 hover:text-white'
+                                                : 'border-transparent text-[#3C3A3A] hover:text-white'
                                         }`}
                                         onClick={() => setActiveTab(tab)}
                                     >

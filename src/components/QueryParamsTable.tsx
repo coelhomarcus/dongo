@@ -13,10 +13,10 @@ const QueryParamsTable = ({ queryParams, onAdd, onUpdate, onRemove }: QueryParam
     return (
         <div>
             <div className="flex justify-between items-center mb-2">
-                <label className="block text-sm font-medium">Query Parameters:</label>
+                <label className="block text-sm font-medium text-[#5D5D5D]">Query</label>
                 <button
                     onClick={onAdd}
-                    className="text-xs text-blue-500 hover:text-blue-300 transition-colors cursor-pointer px-2 py-1 rounded"
+                    className="text-xs text-blue-500 hover:text-blue-300 transition-colors cursor-pointer px-2 rounded"
                 >
                     + Add Param
                 </button>
@@ -24,8 +24,8 @@ const QueryParamsTable = ({ queryParams, onAdd, onUpdate, onRemove }: QueryParam
             <div className="border border-[#303030] rounded-sm">
                 <div className="grid grid-cols-12 gap-2 p-2 text-xs font-medium border-b border-[#303030]">
                     <div className="col-span-1"></div>
-                    <div className="col-span-5">Key</div>
-                    <div className="col-span-5">Value</div>
+                    <div className="col-span-5">NAME</div>
+                    <div className="col-span-5">PATH</div>
                     <div className="col-span-1"></div>
                 </div>
                 {queryParams.map((param) => (
@@ -44,7 +44,7 @@ const QueryParamsTable = ({ queryParams, onAdd, onUpdate, onRemove }: QueryParam
                                 value={param.name}
                                 onChange={(e) => onUpdate(param.id, 'name', e.target.value)}
                                 placeholder="Parameter name"
-                                className="w-full bg-transparent text-white text-xs p-1 border border-[#404040] rounded outline-0"
+                                className="w-full bg-transparent text-white text-xs p-2 border border-[#303030] rounded outline-0"
                             />
                         </div>
                         <div className="col-span-5">
@@ -53,13 +53,13 @@ const QueryParamsTable = ({ queryParams, onAdd, onUpdate, onRemove }: QueryParam
                                 value={param.value}
                                 onChange={(e) => onUpdate(param.id, 'value', e.target.value)}
                                 placeholder="Parameter value"
-                                className="w-full bg-transparent text-white text-xs p-1 border border-[#404040] rounded outline-0"
+                                className="w-full bg-transparent text-white text-xs p-2 border border-[#303030] rounded outline-0"
                             />
                         </div>
                         <div className="col-span-1 flex justify-center items-center">
                             <button
                                 onClick={() => onRemove(param.id)}
-                                className="text-red-400 hover:text-red-300 text-lg cursor-pointer"
+                                className="text-[#5D5D5D] hover:text-red-400 text-lg cursor-pointer"
                             >
                                 <IoTrash />
                             </button>

@@ -151,18 +151,16 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
     return (
         <div>
             <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-gray-300">
-                    Body {method === "GET" || method === "DELETE" ? "- Não aplicável para " + method : ""}
+                <label className="text-sm font-medium text-[#5D5D5D]">
+                    JSON
                 </label>
-                {!isDisabled && (
-                    <button
+                <button
                         onClick={formatBodyJson}
-                        className="px-2 py-1 text-xs bg-[#303030] hover:bg-[#404040] text-white rounded transition-colors disabled:opacity-50"
-                        disabled={!value.trim()}
+                        className="px-2 py-1 text-xs bg-[#303030] hover:bg-[#404040] text-white rounded transition-colors disabled:opacity-0"
+                        disabled={isDisabled || !value.trim() || !!bodyError}
                     >
                         Pretty
                     </button>
-                )}
             </div>
             <textarea
                 className={`w-full h-32 p-2 border border-[#303030] bg-[#151515] text-white rounded resize-none font-mono text-sm outline-0 ${

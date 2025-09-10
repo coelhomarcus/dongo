@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import type { ApiResponse } from '../types/index';
+import JSONPretty from 'react-json-pretty';
+import 'react-json-pretty/themes/monikai.css';
 
 interface ResponsePanelProps {
     response: ApiResponse | null;
@@ -8,14 +10,6 @@ interface ResponsePanelProps {
 
 const ResponsePanel = ({ response, loading }: ResponsePanelProps) => {
     const [responseTab, setResponseTab] = useState("Response");
-
-    const formatJson = (data: unknown) => {
-        try {
-            return JSON.stringify(data, null, 2);
-        } catch {
-            return String(data);
-        }
-    };
 
     const formatSize = (bytes?: number) => {
         if (!bytes) return '0 B';
@@ -100,9 +94,20 @@ const ResponsePanel = ({ response, loading }: ResponsePanelProps) => {
                     <div className="flex-1 overflow-auto px-4 py-2">
                         {responseTab === "Response" && (
                             <div>
-                                <pre className="text-xs bg-[#151515] p-2 rounded overflow-auto">
-                                    {formatJson(response.data)}
-                                </pre>
+                                <div className="bg-[#151515] border border-[#303030] rounded overflow-auto">
+                                    <JSONPretty 
+                                        data={response.data}
+                                        theme={{
+                                            main: 'line-height:1.3;color:#f8f8f2;background:#151515;overflow:auto;padding:8px;',
+                                            error: 'line-height:1.3;color:#f92672;background:#151515;overflow:auto;padding:8px;',
+                                            key: 'color:#66d9ef;',
+                                            string: 'color:#a6e22e;',
+                                            value: 'color:#ae81ff;',
+                                            boolean: 'color:#fd971f;'
+                                        }}
+                                        style={{ fontSize: '12px' }}
+                                    />
+                                </div>
                                 {response.error && (
                                     <div className="mt-4">
                                         <h3 className="text-sm font-bold mb-2 text-red-400">Error:</h3>
@@ -116,9 +121,20 @@ const ResponsePanel = ({ response, loading }: ResponsePanelProps) => {
 
                         {responseTab === "Headers" && (
                             <div>
-                                <pre className="text-xs bg-[#151515] p-2 rounded overflow-auto">
-                                    {formatJson(response.headers)}
-                                </pre>
+                                <div className="bg-[#151515] border border-[#303030] rounded overflow-auto">
+                                    <JSONPretty 
+                                        data={response.headers}
+                                        theme={{
+                                            main: 'line-height:1.3;color:#f8f8f2;background:#151515;overflow:auto;padding:8px;',
+                                            error: 'line-height:1.3;color:#f92672;background:#151515;overflow:auto;padding:8px;',
+                                            key: 'color:#66d9ef;',
+                                            string: 'color:#a6e22e;',
+                                            value: 'color:#ae81ff;',
+                                            boolean: 'color:#fd971f;'
+                                        }}
+                                        style={{ fontSize: '12px' }}
+                                    />
+                                </div>
                             </div>
                         )}
                     </div>
