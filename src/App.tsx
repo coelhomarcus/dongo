@@ -8,39 +8,36 @@ import type { ApiResponse, QueryParam } from "./types/index";
 
 import { IoSend } from "react-icons/io5";
 
-
 const App = () => {
     const [method, setMethod] = useState("GET");
-    const [baseUrl, setBaseUrl] = useState("http://localhost:3000/tasks");
-    const [displayUrl, setDisplayUrl] = useState("http://localhost:3000/tasks");
+    const [baseUrl, setBaseUrl] = useState("https://jsonplaceholder.typicode.com/todos/1");
+    const [displayUrl, setDisplayUrl] = useState("");
     const [requestData, setRequestData] = useState("");
     const [response, setResponse] = useState<ApiResponse | null>(null);
     const [loading, setLoading] = useState(false);
     const [headers, setHeaders] = useState("{}");
-    const [queryParams, setQueryParams] = useState<QueryParam[]>([
-        { id: "1", name: "", value: "", enabled: true }
-    ]);
+    const [queryParams, setQueryParams] = useState<QueryParam[]>([{ id: "1", name: "", value: "", enabled: true }]);
     const [activeTab, setActiveTab] = useState("Body");
 
     // Atualizar a URL exibida sempre que os parâmetros mudarem
     useEffect(() => {
         try {
             // Filtrar parâmetros habilitados que tenham pelo menos o nome preenchido
-            const enabledParams = queryParams.filter(param => param.enabled && param.name.trim());
-            
+            const enabledParams = queryParams.filter((param) => param.enabled && param.name.trim());
+
             if (enabledParams.length > 0 && baseUrl.trim()) {
                 const urlObj = new URL(baseUrl);
-                
+
                 // Limpar parâmetros existentes
-                urlObj.search = '';
-                
+                urlObj.search = "";
+
                 // Adicionar novos parâmetros
-                enabledParams.forEach(param => {
+                enabledParams.forEach((param) => {
                     const paramName = param.name.trim();
-                    const paramValue = param.value.trim() || ''; // Usar string vazia se não houver valor
+                    const paramValue = param.value.trim() || ""; // Usar string vazia se não houver valor
                     urlObj.searchParams.append(paramName, paramValue);
                 });
-                
+
                 setDisplayUrl(urlObj.toString());
             } else {
                 setDisplayUrl(baseUrl);
@@ -59,19 +56,17 @@ const App = () => {
             id: Date.now().toString(),
             name: "",
             value: "",
-            enabled: true
+            enabled: true,
         };
         setQueryParams([...queryParams, newParam]);
     };
 
     const updateQueryParam = (id: string, field: keyof QueryParam, value: string | boolean) => {
-        setQueryParams(queryParams.map(param => 
-            param.id === id ? { ...param, [field]: value } : param
-        ));
+        setQueryParams(queryParams.map((param) => (param.id === id ? { ...param, [field]: value } : param)));
     };
 
     const removeQueryParam = (id: string) => {
-        setQueryParams(queryParams.filter(param => param.id !== id));
+        setQueryParams(queryParams.filter((param) => param.id !== id));
     };
 
     const handleRequest = async () => {
@@ -89,7 +84,7 @@ const App = () => {
                 statusText: "Electron API não disponível",
                 headers: {},
                 data: "A API do Electron não foi carregada corretamente",
-                error: "window.electronAPI não está definido"
+                error: "window.electronAPI não está definido",
             });
             return;
         }
@@ -101,14 +96,16 @@ const App = () => {
             let finalUrl = baseUrl;
 
             // Processar parâmetros da URL
-            const enabledParams = queryParams.filter(param => param.enabled && param.name.trim() && param.value.trim());
+            const enabledParams = queryParams.filter(
+                (param) => param.enabled && param.name.trim() && param.value.trim()
+            );
             if (enabledParams.length > 0) {
                 const urlObj = new URL(finalUrl);
-                
-                enabledParams.forEach(param => {
+
+                enabledParams.forEach((param) => {
                     urlObj.searchParams.append(param.name.trim(), param.value.trim());
                 });
-                
+
                 finalUrl = urlObj.toString();
             }
 
@@ -134,13 +131,8 @@ const App = () => {
                 }
             }
 
-            const result = await window.electronAPI.makeRequest(
-                method,
-                finalUrl,
-                parsedData,
-                parsedHeaders
-            );
-            
+            const result = await window.electronAPI.makeRequest(method, finalUrl, parsedData, parsedHeaders);
+
             setResponse(result);
         } catch (error) {
             console.error("Erro ao fazer requisição:", error);
@@ -150,7 +142,7 @@ const App = () => {
                 statusText: "Erro interno",
                 headers: {},
                 data: `Erro: ${error instanceof Error ? error.message : String(error)}`,
-                error: "Erro interno da aplicação"
+                error: "Erro interno da aplicação",
             });
         } finally {
             setLoading(false);
@@ -165,20 +157,42 @@ const App = () => {
                 <div className="grid grid-cols-2 w-full">
                     <div id="left" className="p-4">
                         <div id="request-bar" className="flex items-center space-x-2 mb-4">
-                            <select 
-                                className="border border-[#303030] bg-transparent text-white p-2 rounded"
+                            <select
+                                className={`text-center border border-[#303030] p-2 rounded outline-0 bg-[#141414] cursor-pointer font-medium appearance-none ${
+                                    method === "GET"
+                                        ? "text-lime-400"
+                                        : method === "POST"
+                                        ? "text-yellow-500"
+                                        : method === "PUT"
+                                        ? "text-blue-500"
+                                        : method === "PATCH"
+                                        ? "text-purple-500"
+                                        : method === "DELETE"
+                                        ? "text-red-500"
+                                        : "text-white"
+                                }`}
                                 value={method}
                                 onChange={(e) => setMethod(e.target.value)}
                             >
-                                <option>GET</option>
-                                <option>POST</option>
-                                <option>PUT</option>
-                                <option>PATCH</option>
-                                <option>DELETE</option>
+                                <option className="text-lime-400 text" value="GET">
+                                    GET
+                                </option>
+                                <option className="text-yellow-500" value="POST">
+                                    POST
+                                </option>
+                                <option className="text-blue-500" value="PUT">
+                                    PUT
+                                </option>
+                                <option className="text-purple-500" value="PATCH">
+                                    PATCH
+                                </option>
+                                <option className="text-red-500" value="DELETE">
+                                    DELETE
+                                </option>
                             </select>
                             <div className="flex justify-between border border-[#303030] bg-transparent rounded flex-1">
-                                <input 
-                                    className="text-white p-2 ml-2 outline-0 flex-1 bg-transparent" 
+                                <input
+                                    className="text-white p-2 ml-2 outline-0 flex-1 bg-transparent"
                                     placeholder="https://api.exemplo.com/users"
                                     value={displayUrl}
                                     onChange={(e) => {
@@ -186,12 +200,12 @@ const App = () => {
                                         setDisplayUrl(e.target.value);
                                     }}
                                 />
-                                <button 
+                                <button
                                     className="text-white p-2 px-4 rounded ml-2 cursor-pointer disabled:opacity-50"
                                     onClick={handleRequest}
                                     disabled={loading}
                                 >
-                                    {loading ? "..." : <IoSend className="text-neutral-300 hover:text-white"/>  }
+                                    {loading ? "..." : <IoSend className="text-neutral-300 hover:text-white" />}
                                 </button>
                             </div>
                         </div>
@@ -204,8 +218,8 @@ const App = () => {
                                         key={tab}
                                         className={`py-2 text-sm font-medium transition-colors cursor-pointer ${
                                             activeTab === tab
-                                                ? 'text-white'
-                                                : 'border-transparent text-[#3C3A3A] hover:text-white'
+                                                ? "text-white"
+                                                : "border-transparent text-[#3C3A3A] hover:text-white"
                                         }`}
                                         onClick={() => setActiveTab(tab)}
                                     >
@@ -226,11 +240,7 @@ const App = () => {
                                 )}
 
                                 {activeTab === "Body" && (
-                                    <BodyEditor
-                                        value={requestData}
-                                        onChange={setRequestData}
-                                        method={method}
-                                    />
+                                    <BodyEditor value={requestData} onChange={setRequestData} method={method} />
                                 )}
 
                                 {activeTab === "Headers" && (

@@ -12,8 +12,11 @@ const createWindow = () => {
     win = new BrowserWindow({
         width: 1200,
         height: 800,
+        minWidth: 1024,
+        minHeight: 720,
+        autoHideMenuBar: true,
         webPreferences: {
-            preload: path.join(__dirname, "preload.js"), // comunicação segura
+            preload: path.join(__dirname, "preload.js"),
             nodeIntegration: false,
             contextIsolation: true,
         },
@@ -27,24 +30,24 @@ const createWindow = () => {
 };
 
 // Handler para requisições HTTP
-ipcMain.handle('make-request', async (event, { method, url, data, headers }) => {
+ipcMain.handle("make-request", async (event, { method, url, data, headers }) => {
     const startTime = Date.now();
-    
+
     try {
         const response = await axios({
             method: method.toLowerCase(),
             url,
             data,
             headers: {
-                'Content-Type': 'application/json',
-                ...headers
+                "Content-Type": "application/json",
+                ...headers,
             },
             timeout: 10000, // 10 segundos de timeout
         });
 
         const endTime = Date.now();
         const responseTime = endTime - startTime;
-        
+
         // Calcular tamanho da resposta
         const responseString = JSON.stringify(response.data);
         const responseSize = new Blob([responseString]).size;
@@ -61,16 +64,16 @@ ipcMain.handle('make-request', async (event, { method, url, data, headers }) => 
     } catch (error) {
         const endTime = Date.now();
         const responseTime = endTime - startTime;
-        
+
         if (axios.isAxiosError(error)) {
             const errorData = error.response?.data || error.message;
             const errorString = JSON.stringify(errorData);
             const responseSize = new Blob([errorString]).size;
-            
+
             return {
                 success: false,
                 status: error.response?.status || 0,
-                statusText: error.response?.statusText || 'Network Error',
+                statusText: error.response?.statusText || "Network Error",
                 headers: error.response?.headers || {},
                 data: errorData,
                 error: error.message,
@@ -78,17 +81,17 @@ ipcMain.handle('make-request', async (event, { method, url, data, headers }) => 
                 responseSize,
             };
         }
-        
+
         const errorString = JSON.stringify(error);
         const responseSize = new Blob([errorString]).size;
-        
+
         return {
             success: false,
             status: 0,
-            statusText: 'Unknown Error',
+            statusText: "Unknown Error",
             headers: {},
             data: error,
-            error: 'Unknown error occurred',
+            error: "Unknown error occurred",
             responseTime,
             responseSize,
         };

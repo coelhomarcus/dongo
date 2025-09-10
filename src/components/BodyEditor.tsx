@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface BodyEditorProps {
     value: string;
@@ -13,7 +13,7 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
     // Função para formatar JSON (Pretty)
     const formatBodyJson = () => {
         if (!value.trim()) return;
-        
+
         try {
             const parsed = JSON.parse(value);
             const formatted = JSON.stringify(parsed, null, 2);
@@ -30,7 +30,7 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
             setBodyError("");
             return;
         }
-        
+
         try {
             JSON.parse(jsonString);
             setBodyError("");
@@ -50,27 +50,27 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
     const handleBodyKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         const textarea = e.currentTarget;
         const { selectionStart, selectionEnd, value: currentValue } = textarea;
-        
+
         // Mapeamento de caracteres de abertura e fechamento
         const pairs: Record<string, string> = {
-            '{': '}',
-            '[': ']'
+            "{": "}",
+            "[": "]",
         };
 
         // Ctrl/Cmd + D para duplicar linha
-        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+        if ((e.ctrlKey || e.metaKey) && e.key === "d") {
             e.preventDefault();
-            
-            const lines = currentValue.split('\n');
-            const currentLineIndex = currentValue.slice(0, selectionStart).split('\n').length - 1;
+
+            const lines = currentValue.split("\n");
+            const currentLineIndex = currentValue.slice(0, selectionStart).split("\n").length - 1;
             const currentLine = lines[currentLineIndex];
-            
+
             lines.splice(currentLineIndex + 1, 0, currentLine);
-            const newValue = lines.join('\n');
-            
+            const newValue = lines.join("\n");
+
             onChange(newValue);
             validateJson(newValue);
-            
+
             // Mover cursor para a linha duplicada
             setTimeout(() => {
                 const newPosition = selectionStart + currentLine.length + 1;
@@ -82,44 +82,44 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
         // Se o usuário digitou um caractere de abertura
         if (pairs[e.key] && selectionStart === selectionEnd) {
             e.preventDefault();
-            
-            const newValue = 
-                currentValue.slice(0, selectionStart) + 
-                e.key + 
-                pairs[e.key] + 
-                currentValue.slice(selectionEnd);
-            
+
+            const newValue =
+                currentValue.slice(0, selectionStart) + e.key + pairs[e.key] + currentValue.slice(selectionEnd);
+
             onChange(newValue);
             validateJson(newValue);
-            
+
             // Posicionar o cursor entre os caracteres
             setTimeout(() => {
                 textarea.setSelectionRange(selectionStart + 1, selectionStart + 1);
             }, 0);
         }
-        
+
         // Auto-indentação para Enter após {
-        else if (e.key === 'Enter' && selectionStart > 0) {
+        else if (e.key === "Enter" && selectionStart > 0) {
             const charBefore = currentValue[selectionStart - 1];
             const charAfter = currentValue[selectionStart];
-            
-            if (charBefore === '{' && charAfter === '}') {
+
+            if (charBefore === "{" && charAfter === "}") {
                 e.preventDefault();
-                
+
                 // Calcular indentação atual
-                const lines = currentValue.slice(0, selectionStart).split('\n');
+                const lines = currentValue.slice(0, selectionStart).split("\n");
                 const currentLine = lines[lines.length - 1];
-                const indent = currentLine.match(/^\s*/)?.[0] || '';
-                
-                const newValue = 
-                    currentValue.slice(0, selectionStart) + 
-                    '\n' + indent + '  ' + 
-                    '\n' + indent + 
+                const indent = currentLine.match(/^\s*/)?.[0] || "";
+
+                const newValue =
+                    currentValue.slice(0, selectionStart) +
+                    "\n" +
+                    indent +
+                    "  " +
+                    "\n" +
+                    indent +
                     currentValue.slice(selectionEnd);
-                
+
                 onChange(newValue);
                 validateJson(newValue);
-                
+
                 // Posicionar o cursor na linha com indentação
                 setTimeout(() => {
                     const newPosition = selectionStart + 1 + indent.length + 2;
@@ -127,18 +127,15 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
                 }, 0);
             }
         }
-        
+
         // Tab para indentação
-        else if (e.key === 'Tab') {
+        else if (e.key === "Tab") {
             e.preventDefault();
-            
-            const newValue = 
-                currentValue.slice(0, selectionStart) + 
-                '  ' + 
-                currentValue.slice(selectionEnd);
-            
+
+            const newValue = currentValue.slice(0, selectionStart) + "  " + currentValue.slice(selectionEnd);
+
             onChange(newValue);
-            
+
             // Mover cursor após a indentação
             setTimeout(() => {
                 textarea.setSelectionRange(selectionStart + 2, selectionStart + 2);
@@ -151,34 +148,26 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
     return (
         <div>
             <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-[#5D5D5D]">
-                    JSON
-                </label>
+                <label className="text-sm font-medium text-[#5D5D5D]">JSON</label>
                 <button
-                        onClick={formatBodyJson}
-                        className="px-2 py-1 text-xs bg-[#303030] hover:bg-[#404040] text-white rounded transition-colors disabled:opacity-0"
-                        disabled={isDisabled || !value.trim() || !!bodyError}
-                    >
-                        Pretty
-                    </button>
+                    onClick={formatBodyJson}
+                    className="px-2 py-1 text-xs bg-[#303030] hover:bg-[#404040] text-white rounded transition-colors disabled:opacity-0"
+                    disabled={isDisabled}
+                >
+                    Pretty
+                </button>
             </div>
             <textarea
                 className={`w-full h-32 p-2 border border-[#303030] bg-[#151515] text-white rounded resize-none font-mono text-sm outline-0 ${
-                    isDisabled ? 'opacity-50 cursor-not-allowed' : ''
-                } ${bodyError ? 'border-red-500' : ''}`}
-                placeholder={
-                    isDisabled
-                        ? 'Body não é usado em requisições ' + method
-                        : 'Raw Request Body'
-                }
+                    isDisabled ? "opacity-50 cursor-not-allowed" : ""
+                } ${bodyError ? "border-red-500" : ""}`}
+                placeholder={isDisabled ? "Body não é usado em requisições " + method : "Raw Request Body"}
                 value={value}
                 onChange={handleBodyChange}
                 onKeyDown={handleBodyKeyDown}
                 disabled={isDisabled}
             />
-            {bodyError && (
-                <div className="text-red-400 text-xs mt-1">{bodyError}</div>
-            )}
+            {bodyError && <div className="text-red-400 text-xs mt-1">{bodyError}</div>}
         </div>
     );
 };
