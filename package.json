@@ -53,11 +53,7 @@
     "config": {
         "forge": {
             "packagerConfig": {
-                "asar": true,
-                "icon": "./assets/icon.ico",
-                "extraResources": [
-                    "./assets"
-                ]
+                "asar": true
             },
             "makers": [
                 {
@@ -67,7 +63,7 @@
                         "authors": "Marcus Coelho",
                         "description": "API client simples feito com Electron e React",
                         "exe": "dongo.exe",
-                        "setupIcon": "./assets/icon.ico"
+                        "icon": "./assets/icon.ico"
                     }
                 },
                 {

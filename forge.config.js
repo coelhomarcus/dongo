@@ -4,8 +4,6 @@ const { FuseV1Options, FuseVersion } = require("@electron/fuses");
 module.exports = {
     packagerConfig: {
         asar: true,
-        icon: "./assets/icon.ico",
-        extraResources: ["./assets"],
     },
     rebuildConfig: {},
     makers: [
@@ -16,7 +14,6 @@ module.exports = {
                 authors: "Marcus Coelho",
                 description: "API client simples feito com Electron e React",
                 exe: "dongo.exe",
-                setupIcon: "./assets/icon.ico",
                 icon: "./assets/icon.ico",
             },
         },

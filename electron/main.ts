@@ -15,7 +15,6 @@ const createWindow = () => {
         minWidth: 1024,
         minHeight: 700,
         autoHideMenuBar: true,
-        icon: path.join(__dirname, "../assets/icon.ico"),
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             nodeIntegration: false,
