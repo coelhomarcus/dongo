@@ -151,7 +151,7 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
                 <label className="text-sm font-medium text-[#5D5D5D]">JSON</label>
                 <button
                     onClick={formatBodyJson}
-                    className="px-2 py-1 text-xs bg-[#303030] hover:bg-[#404040] text-white rounded transition-colors disabled:opacity-0"
+                    className="px-2 text-xs bg-[#303030] hover:bg-[#404040] text-white rounded transition-colors disabled:opacity-0"
                     disabled={isDisabled}
                 >
                     Pretty

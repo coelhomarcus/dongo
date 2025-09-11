@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { QueryParam } from "../types/index";
 
 export const useUrlManager = () => {
-    const [baseUrl, setBaseUrl] = useState("https://jsonplaceholder.typicode.com/todos/1");
+    const [baseUrl, setBaseUrl] = useState("");
     const [displayUrl, setDisplayUrl] = useState("");
 
     // Função para normalizar URL (adicionar http:// se necessário)
