@@ -1,5 +1,6 @@
 import { IoSend } from "react-icons/io5";
 import { useEffect } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 interface RequestBarProps {
     method: string;
@@ -27,39 +28,42 @@ const RequestBar = ({ method, onMethodChange, displayUrl, onUrlChange, onSendReq
     }, [onSendRequest, loading]);
     return (
         <div id="request-bar" className="flex items-center space-x-2 mb-4">
-            <select
-                className={`text-center border border-border px-3 py-2 h-10 rounded-md outline-0 bg-background cursor-pointer font-medium appearance-none ${
-                    method === "GET"
-                        ? "text-green-500"
-                        : method === "POST"
-                          ? "text-yellow-500"
-                          : method === "PUT"
-                            ? "text-blue-500"
-                            : method === "PATCH"
-                              ? "text-purple-500"
-                              : method === "DELETE"
-                                ? "text-red-500"
-                                : "text-foreground"
-                }`}
-                value={method}
-                onChange={(e) => onMethodChange(e.target.value)}
-            >
-                <option className="text-green-500 bg-background" value="GET">
-                    GET
-                </option>
-                <option className="text-yellow-500 bg-background" value="POST">
-                    POST
-                </option>
-                <option className="text-blue-500 bg-background" value="PUT">
-                    PUT
-                </option>
-                <option className="text-purple-500 bg-background" value="PATCH">
-                    PATCH
-                </option>
-                <option className="text-red-500 bg-background" value="DELETE">
-                    DELETE
-                </option>
-            </select>
+            <Select value={method} onValueChange={onMethodChange}>
+                <SelectTrigger
+                    className={`w-27 text-center font-medium ${
+                        method === "GET"
+                            ? "text-green-500"
+                            : method === "POST"
+                              ? "text-yellow-500"
+                              : method === "PUT"
+                                ? "text-blue-500"
+                                : method === "PATCH"
+                                  ? "text-purple-500"
+                                  : method === "DELETE"
+                                    ? "text-red-500"
+                                    : "text-foreground"
+                    }`}
+                >
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="GET" className="text-green-500">
+                        GET
+                    </SelectItem>
+                    <SelectItem value="POST" className="text-yellow-500">
+                        POST
+                    </SelectItem>
+                    <SelectItem value="PUT" className="text-blue-500">
+                        PUT
+                    </SelectItem>
+                    <SelectItem value="PATCH" className="text-purple-500">
+                        PATCH
+                    </SelectItem>
+                    <SelectItem value="DELETE" className="text-red-500">
+                        DELETE
+                    </SelectItem>
+                </SelectContent>
+            </Select>
             <div className="flex justify-between border border-border bg-background rounded-md flex-1 h-10">
                 <input
                     className="text-foreground px-3 py-2 outline-0 flex-1 bg-background text-sm rounded-l-md"
