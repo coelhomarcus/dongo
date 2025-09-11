@@ -112,20 +112,6 @@ const ResponsePanel = ({ response, loading }: ResponsePanelProps) => {
                                 </div>
                             </ScrollArea>
                         </div>
-                        {responseTab === "Response" && response.error && (
-                            <div className="mt-4 bg-destructive/10 border border-destructive/20 rounded-md">
-                                <div className="p-2 border-b border-destructive/20">
-                                    <h3 className="text-sm font-bold text-destructive">Error:</h3>
-                                </div>
-                                <ScrollArea className="h-32 w-full">
-                                    <div className="p-2 w-full overflow-hidden">
-                                        <pre className="text-xs text-destructive whitespace-pre-wrap break-words break-all max-w-full overflow-wrap-anywhere">
-                                            {response.error}
-                                        </pre>
-                                    </div>
-                                </ScrollArea>
-                            </div>
-                        )}
                     </div>
                 </>
             ) : (

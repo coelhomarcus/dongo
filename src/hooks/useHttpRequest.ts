@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { ApiResponse, QueryParam, HeaderItem } from "../types/index";
 
-export const useHttpRequest = () => {
+export const useHttpRequest = (showAlert?: (message: string, title?: string) => void) => {
     const [response, setResponse] = useState<ApiResponse | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -14,12 +14,22 @@ export const useHttpRequest = () => {
         normalizeUrl: (url: string) => string
     ) => {
         if (!baseUrl.trim()) {
-            alert("Por favor, insira uma URL");
+            if (showAlert) {
+                showAlert("Por favor, insira uma URL", "URL Obrigatória");
+            } else {
+                alert("Por favor, insira uma URL");
+            }
             return;
         }
 
         if (!window.electronAPI) {
-            alert("API do Electron não está disponível. Certifique-se de que o preload script foi carregado.");
+            const errorMessage =
+                "API do Electron não está disponível. Certifique-se de que o preload script foi carregado.";
+            if (showAlert) {
+                showAlert(errorMessage, "Erro da API");
+            } else {
+                alert(errorMessage);
+            }
             setResponse({
                 success: false,
                 status: 0,
@@ -56,7 +66,11 @@ export const useHttpRequest = () => {
                 try {
                     parsedData = JSON.parse(requestData);
                 } catch {
-                    alert("JSON inválido no body da requisição");
+                    if (showAlert) {
+                        showAlert("JSON inválido no body da requisição", "Erro de Formato");
+                    } else {
+                        alert("JSON inválido no body da requisição");
+                    }
                     setLoading(false);
                     return;
                 }

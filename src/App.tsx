@@ -4,7 +4,16 @@ import Header from "./Header/Header";
 import RequestBar from "./components/RequestBar";
 import TabSystem from "./components/TabSystem";
 import ResponsePanel from "./components/ResponsePanel";
-import { useQueryParams, useHeaders, useUrlManager, useHttpRequest, useTabs } from "./hooks";
+import { useQueryParams, useHeaders, useUrlManager, useHttpRequest, useTabs, useAlert } from "./hooks";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "./components/ui/alert-dialog";
 
 const App = () => {
     const [method, setMethod] = useState("GET");
@@ -13,7 +22,8 @@ const App = () => {
     const { queryParams, addQueryParam, updateQueryParam, removeQueryParam } = useQueryParams();
     const { headers, addHeader, updateHeader, removeHeader } = useHeaders();
     const { baseUrl, setBaseUrl, displayUrl, setDisplayUrl, normalizeUrl, updateDisplayUrl } = useUrlManager();
-    const { response, loading, makeRequest } = useHttpRequest();
+    const { alertState, showAlert, hideAlert } = useAlert();
+    const { response, loading, makeRequest } = useHttpRequest(showAlert);
     const { activeTab, setActiveTab } = useTabs();
 
     // Atualizar displayUrl
@@ -74,6 +84,18 @@ const App = () => {
                     </div>
                 </div>
             </div>
+
+            <AlertDialog open={alertState.isOpen} onOpenChange={hideAlert}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        {alertState.title && <AlertDialogTitle>{alertState.title}</AlertDialogTitle>}
+                        <AlertDialogDescription>{alertState.description}</AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogAction onClick={hideAlert}>OK</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     );
 };
