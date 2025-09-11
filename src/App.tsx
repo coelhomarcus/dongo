@@ -31,12 +31,12 @@ const App = () => {
     };
 
     return (
-        <div className="text-white">
+        <div className="bg-background text-foreground min-h-screen">
             <Header />
             <div className="flex">
                 {/* <Sidebar /> */}
                 <div className="grid grid-cols-2 w-full min-h-[calc(100vh-50px)]">
-                    <div id="left" className="p-4 h-full">
+                    <div id="left" className="p-4 h-full bg-card">
                         <RequestBar
                             method={method}
                             onMethodChange={setMethod}
@@ -63,7 +63,7 @@ const App = () => {
                         />
                     </div>
 
-                    <div id="right" className="p-4 h-full">
+                    <div id="right" className="p-4 h-full bg-card border-l border-border">
                         <ResponsePanel response={response} loading={loading} />
                     </div>
                 </div>

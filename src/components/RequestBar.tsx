@@ -28,41 +28,41 @@ const RequestBar = ({ method, onMethodChange, displayUrl, onUrlChange, onSendReq
     return (
         <div id="request-bar" className="flex items-center space-x-2 mb-4">
             <select
-                className={`text-center border border-[#303030] px-3 py-2 h-10 rounded outline-0 bg-[#141414] cursor-pointer font-medium appearance-none ${
+                className={`text-center border border-border px-3 py-2 h-10 rounded-md outline-0 bg-background cursor-pointer font-medium appearance-none ${
                     method === "GET"
-                        ? "text-lime-400"
+                        ? "text-green-500"
                         : method === "POST"
-                        ? "text-yellow-500"
-                        : method === "PUT"
-                        ? "text-blue-500"
-                        : method === "PATCH"
-                        ? "text-purple-500"
-                        : method === "DELETE"
-                        ? "text-red-500"
-                        : "text-white"
+                          ? "text-yellow-500"
+                          : method === "PUT"
+                            ? "text-blue-500"
+                            : method === "PATCH"
+                              ? "text-purple-500"
+                              : method === "DELETE"
+                                ? "text-red-500"
+                                : "text-foreground"
                 }`}
                 value={method}
                 onChange={(e) => onMethodChange(e.target.value)}
             >
-                <option className="text-lime-400" value="GET">
+                <option className="text-green-500 bg-background" value="GET">
                     GET
                 </option>
-                <option className="text-yellow-500" value="POST">
+                <option className="text-yellow-500 bg-background" value="POST">
                     POST
                 </option>
-                <option className="text-blue-500" value="PUT">
+                <option className="text-blue-500 bg-background" value="PUT">
                     PUT
                 </option>
-                <option className="text-purple-500" value="PATCH">
+                <option className="text-purple-500 bg-background" value="PATCH">
                     PATCH
                 </option>
-                <option className="text-red-500" value="DELETE">
+                <option className="text-red-500 bg-background" value="DELETE">
                     DELETE
                 </option>
             </select>
-            <div className="flex justify-between border border-[#303030] bg-transparent rounded flex-1 h-10">
+            <div className="flex justify-between border border-border bg-background rounded-md flex-1 h-10">
                 <input
-                    className="text-white px-3 py-2 outline-0 flex-1 bg-transparent text-sm"
+                    className="text-foreground px-3 py-2 outline-0 flex-1 bg-background text-sm rounded-l-md"
                     placeholder="https://coelhomarcus.com"
                     value={displayUrl}
                     onChange={(e) => onUrlChange(e.target.value)}
@@ -74,12 +74,12 @@ const RequestBar = ({ method, onMethodChange, displayUrl, onUrlChange, onSendReq
                     }}
                 />
                 <button
-                    className="text-white px-3 py-2 rounded mr-1 cursor-pointer disabled:opacity-50"
+                    className="text-foreground px-3 py-2 rounded-r-md mr-1 cursor-pointer disabled:opacity-50"
                     onClick={onSendRequest}
                     disabled={loading}
                     title="Enviar requisição (Ctrl+Enter)"
                 >
-                    <IoSend className="text-neutral-500 hover:text-white" />
+                    <IoSend className="text-muted-foreground hover:text-foreground transition-colors" />
                 </button>
             </div>
         </div>

@@ -1,4 +1,4 @@
-/* Custom Scrollbar Styles */
+/* Custom Scrollbar Styles using CSS Variables */
 .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -9,13 +9,13 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #4a4a4a;
+    background: hsl(var(--muted-foreground));
     border-radius: 3px;
     transition: background 0.2s ease;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #6a6a6a;
+    background: hsl(var(--foreground) / 0.6);
 }
 
 .custom-scrollbar::-webkit-scrollbar-corner {
@@ -28,19 +28,19 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:horizontal {
-    background: #4a4a4a;
+    background: hsl(var(--muted-foreground));
     border-radius: 3px;
     min-width: 20px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:horizontal:hover {
-    background: #6a6a6a;
+    background: hsl(var(--foreground) / 0.6);
 }
 
 /* Scrollbar global para toda a aplicação */
 * {
     scrollbar-width: thin;
-    scrollbar-color: #4a4a4a transparent;
+    scrollbar-color: hsl(var(--muted-foreground)) transparent;
 }
 
 /* Webkit scrollbar global */
@@ -54,13 +54,13 @@
 }
 
 *::-webkit-scrollbar-thumb {
-    background: #4a4a4a;
+    background: hsl(var(--muted-foreground));
     border-radius: 3px;
     transition: background 0.2s ease;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-    background: #6a6a6a;
+    background: hsl(var(--foreground) / 0.6);
 }
 
 *::-webkit-scrollbar-corner {

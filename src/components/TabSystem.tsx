@@ -38,14 +38,14 @@ const TabSystem = ({
 
     return (
         <div className="mb-4">
-            <div className="flex space-x-8">
+            <div className="flex space-x-8 border-b border-border">
                 {tabs.map((tab) => (
                     <button
                         key={tab}
-                        className={`py-2 text-sm font-medium transition-colors cursor-pointer ${
+                        className={`py-2 text-sm font-medium transition-colors cursor-pointer border-b-2 ${
                             activeTab === tab
-                                ? "text-white"
-                                : "border-transparent text-[#5D5D5D] hover:text-neutral-300"
+                                ? "text-foreground border-primary"
+                                : "border-transparent text-muted-foreground hover:text-foreground"
                         }`}
                         onClick={() => onTabChange(tab)}
                     >
