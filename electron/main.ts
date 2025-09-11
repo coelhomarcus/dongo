@@ -15,6 +15,7 @@ const createWindow = () => {
         minWidth: 1024,
         minHeight: 700,
         autoHideMenuBar: true,
+        frame: false,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             nodeIntegration: false,
@@ -104,6 +105,33 @@ ipcMain.handle("make-request", async (event, { method, url, data, headers }) => 
             responseSize,
         };
     }
+});
+
+// Handlers para controles da janela
+ipcMain.handle("window-minimize", () => {
+    if (win) {
+        win.minimize();
+    }
+});
+
+ipcMain.handle("window-maximize", () => {
+    if (win) {
+        if (win.isMaximized()) {
+            win.restore();
+        } else {
+            win.maximize();
+        }
+    }
+});
+
+ipcMain.handle("window-close", () => {
+    if (win) {
+        win.close();
+    }
+});
+
+ipcMain.handle("window-is-maximized", () => {
+    return win ? win.isMaximized() : false;
 });
 
 app.whenReady().then(createWindow);
