@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { ApiResponse } from "../types/index";
 import JSONPretty from "react-json-pretty";
 import "react-json-pretty/themes/monikai.css";
+import { ScrollArea } from "./ui/scroll-area";
 
 import { ImSpinner3 } from "react-icons/im";
 
@@ -84,27 +85,45 @@ const ResponsePanel = ({ response, loading }: ResponsePanelProps) => {
                     </div>
 
                     {/* Conteúdo das abas */}
-                    <div className="overflow-hidden p-4 flex flex-col">
-                        <div className="bg-muted border border-border rounded-md flex-1 overflow-auto custom-scrollbar">
-                            <JSONPretty
-                                data={responseTab === "Response" ? response.data : response.headers}
-                                theme={{
-                                    main: `line-height:1.3;color:var(--foreground);background:var(--muted);overflow:visible;padding:8px;min-height:100%;text-wrap:break-word;white-space:pre-wrap;`,
-                                    error: `line-height:1.3;color:var(--destructive);background:var(--muted);overflow:visible;padding:8px;min-height:100%;`,
-                                    key: "color:#66d9ef;",
-                                    string: "color:#a6e22e;",
-                                    value: "color:#ae81ff;",
-                                    boolean: "color:#fd971f;",
-                                }}
-                                style={{ fontSize: "12px", minHeight: "100%" }}
-                            />
+                    <div className="overflow-hidden p-4 flex flex-col flex-1">
+                        <div className="bg-muted border border-border rounded-md flex-1 min-h-0 overflow-x-hidden">
+                            <ScrollArea className="h-full w-full overflow-x-hidden">
+                                <div className="p-2 w-full overflow-hidden json-pretty-container">
+                                    <JSONPretty
+                                        data={responseTab === "Response" ? response.data : response.headers}
+                                        theme={{
+                                            main: `line-height:1.3;color:var(--foreground);background:transparent;overflow:visible;padding:8px;word-wrap:break-word;word-break:break-all;white-space:pre-wrap;max-width:100%;`,
+                                            error: `line-height:1.3;color:var(--destructive);background:transparent;overflow:visible;padding:8px;word-wrap:break-word;word-break:break-all;white-space:pre-wrap;`,
+                                            key: "color:#66d9ef;word-wrap:break-word;",
+                                            string: "color:#a6e22e;word-wrap:break-word;word-break:break-all;",
+                                            value: "color:#ae81ff;word-wrap:break-word;word-break:break-all;",
+                                            boolean: "color:#fd971f;",
+                                        }}
+                                        style={{
+                                            fontSize: "12px",
+                                            wordWrap: "break-word",
+                                            wordBreak: "break-all",
+                                            whiteSpace: "pre-wrap",
+                                            maxWidth: "100%",
+                                            overflowWrap: "break-word",
+                                            overflowX: "hidden",
+                                        }}
+                                    />
+                                </div>
+                            </ScrollArea>
                         </div>
                         {responseTab === "Response" && response.error && (
-                            <div className="mt-4 bg-destructive/10 border border-destructive/20 p-2 rounded-md">
-                                <h3 className="text-sm font-bold mb-2 text-destructive">Error:</h3>
-                                <pre className="text-xs overflow-auto custom-scrollbar text-destructive">
-                                    {response.error}
-                                </pre>
+                            <div className="mt-4 bg-destructive/10 border border-destructive/20 rounded-md">
+                                <div className="p-2 border-b border-destructive/20">
+                                    <h3 className="text-sm font-bold text-destructive">Error:</h3>
+                                </div>
+                                <ScrollArea className="h-32 w-full">
+                                    <div className="p-2 w-full overflow-hidden">
+                                        <pre className="text-xs text-destructive whitespace-pre-wrap break-words break-all max-w-full overflow-wrap-anywhere">
+                                            {response.error}
+                                        </pre>
+                                    </div>
+                                </ScrollArea>
                             </div>
                         )}
                     </div>
