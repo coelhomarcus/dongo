@@ -30,7 +30,10 @@ module.exports = {
                 authors: "Marcus Coelho",
                 description: "API client simples feito com Electron e React",
                 exe: "dongo.exe",
+                setupExe: "DongoSetup.exe",
                 icon: "./assets/icon.ico",
+                setupIcon: "./assets/icon.ico",
+                shortcutName: "Dongo",
             },
         },
         {

@@ -1,7 +1,7 @@
 {
     "name": "dongo",
     "private": true,
-    "version": "0.1.0",
+    "version": "0.1.2",
     "type": "module",
     "main": "dist-electron/main.js",
     "scripts": {
@@ -91,7 +91,10 @@
                         "authors": "Marcus Coelho",
                         "description": "API client simples feito com Electron e React",
                         "exe": "Dongo.exe",
-                        "icon": "./assets/icon.ico"
+                        "setupExe": "DongoSetup.exe",
+                        "icon": "./assets/icon.ico",
+                        "setupIcon": "./assets/icon.ico",
+                        "shortcutName": "Dongo"
                     }
                 },
                 {
