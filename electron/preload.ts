@@ -1,7 +1,5 @@
 const { ipcRenderer, contextBridge } = require("electron");
 
-console.log("Preload script carregado!");
-
 // Expor APIs seguras para o renderer process
 contextBridge.exposeInMainWorld("electronAPI", {
     makeRequest: (method: string, url: string, data?: unknown, headers?: Record<string, string>) =>
@@ -13,5 +11,3 @@ contextBridge.exposeInMainWorld("electronAPI", {
     windowClose: () => ipcRenderer.invoke("window-close"),
     windowIsMaximized: () => ipcRenderer.invoke("window-is-maximized"),
 });
-
-console.log("electronAPI exposta no window!");

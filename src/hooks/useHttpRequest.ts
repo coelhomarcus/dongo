@@ -18,7 +18,6 @@ export const useHttpRequest = () => {
             return;
         }
 
-        // Verificar se a API do Electron está disponível
         if (!window.electronAPI) {
             alert("API do Electron não está disponível. Certifique-se de que o preload script foi carregado.");
             setResponse({

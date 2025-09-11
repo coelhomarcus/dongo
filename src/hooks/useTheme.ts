@@ -4,19 +4,18 @@ export const useTheme = () => {
     const [theme, setTheme] = useState<"light" | "dark">("dark");
 
     useEffect(() => {
-        // Recuperar tema salvo do localStorage
+        // Tema localStorage
         const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
         if (savedTheme) {
             setTheme(savedTheme);
         } else {
-            // Detectar preferência do sistema
+            // Preferência do sistema
             const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
             setTheme(prefersDark ? "dark" : "light");
         }
     }, []);
 
     useEffect(() => {
-        // Aplicar tema ao documento
         const root = document.documentElement;
         if (theme === "dark") {
             root.classList.add("dark");
@@ -24,7 +23,6 @@ export const useTheme = () => {
             root.classList.remove("dark");
         }
 
-        // Salvar tema no localStorage
         localStorage.setItem("theme", theme);
     }, [theme]);
 

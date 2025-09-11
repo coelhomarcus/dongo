@@ -50,7 +50,6 @@ ipcMain.handle("make-request", async (event, { method, url, data, headers }) => 
         const endTime = Date.now();
         const responseTime = endTime - startTime;
 
-        // Calcular tamanho da resposta
         const responseString = JSON.stringify(response.data);
         const responseSize = new Blob([responseString]).size;
 

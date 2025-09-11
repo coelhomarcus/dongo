@@ -10,7 +10,7 @@ interface BodyEditorProps {
 const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorProps) => {
     const [bodyError, setBodyError] = useState("");
 
-    // Função para formatar JSON (Pretty)
+    // (Pretty)
     const formatBodyJson = () => {
         if (!value.trim()) return;
 
@@ -24,7 +24,6 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
         }
     };
 
-    // Função para validar JSON em tempo real
     const validateJson = (jsonString: string) => {
         if (!jsonString.trim()) {
             setBodyError("");
@@ -39,14 +38,12 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
         }
     };
 
-    // Função para lidar com mudanças no body
     const handleBodyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newValue = e.target.value;
         onChange(newValue);
         validateJson(newValue);
     };
 
-    // Função para lidar com teclas especiais no body
     const handleBodyKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         const textarea = e.currentTarget;
         const { selectionStart, selectionEnd, value: currentValue } = textarea;
@@ -57,7 +54,6 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
             "[": "]",
         };
 
-        // Ctrl/Cmd + D para duplicar linha
         if ((e.ctrlKey || e.metaKey) && e.key === "d") {
             e.preventDefault();
 
@@ -71,7 +67,6 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
             onChange(newValue);
             validateJson(newValue);
 
-            // Mover cursor para a linha duplicada
             setTimeout(() => {
                 const newPosition = selectionStart + currentLine.length + 1;
                 textarea.setSelectionRange(newPosition, newPosition);
@@ -79,7 +74,6 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
             return;
         }
 
-        // Se o usuário digitou um caractere de abertura
         if (pairs[e.key] && selectionStart === selectionEnd) {
             e.preventDefault();
 
@@ -89,21 +83,16 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
             onChange(newValue);
             validateJson(newValue);
 
-            // Posicionar o cursor entre os caracteres
             setTimeout(() => {
                 textarea.setSelectionRange(selectionStart + 1, selectionStart + 1);
             }, 0);
-        }
-
-        // Auto-indentação para Enter após {
-        else if (e.key === "Enter" && selectionStart > 0) {
+        } else if (e.key === "Enter" && selectionStart > 0) {
             const charBefore = currentValue[selectionStart - 1];
             const charAfter = currentValue[selectionStart];
 
             if (charBefore === "{" && charAfter === "}") {
                 e.preventDefault();
 
-                // Calcular indentação atual
                 const lines = currentValue.slice(0, selectionStart).split("\n");
                 const currentLine = lines[lines.length - 1];
                 const indent = currentLine.match(/^\s*/)?.[0] || "";
@@ -120,23 +109,18 @@ const BodyEditor = ({ value, onChange, method, disabled = false }: BodyEditorPro
                 onChange(newValue);
                 validateJson(newValue);
 
-                // Posicionar o cursor na linha com indentação
                 setTimeout(() => {
                     const newPosition = selectionStart + 1 + indent.length + 2;
                     textarea.setSelectionRange(newPosition, newPosition);
                 }, 0);
             }
-        }
-
-        // Tab para indentação
-        else if (e.key === "Tab") {
+        } else if (e.key === "Tab") {
             e.preventDefault();
 
             const newValue = currentValue.slice(0, selectionStart) + "  " + currentValue.slice(selectionEnd);
 
             onChange(newValue);
 
-            // Mover cursor após a indentação
             setTimeout(() => {
                 textarea.setSelectionRange(selectionStart + 2, selectionStart + 2);
             }, 0);

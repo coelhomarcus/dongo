@@ -66,7 +66,7 @@ const RequestBar = ({ method, onMethodChange, displayUrl, onUrlChange, onSendReq
             </Select>
             <div className="flex justify-between border border-border bg-background rounded-md flex-1 h-10">
                 <input
-                    className="text-foreground px-3 py-2 outline-0 flex-1 bg-background text-sm rounded-l-md"
+                    className="text-foreground px-3 py-2 outline-0 flex-1 bg-background text-sm rounded-l-md placeholder:text-foreground/20"
                     placeholder="https://coelhomarcus.com"
                     value={displayUrl}
                     onChange={(e) => onUrlChange(e.target.value)}

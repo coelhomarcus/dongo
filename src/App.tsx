@@ -16,13 +16,19 @@ const App = () => {
     const { response, loading, makeRequest } = useHttpRequest();
     const { activeTab, setActiveTab } = useTabs();
 
-    // Atualizar a URL exibida sempre que os parâmetros mudarem
+    // Atualizar displayUrl
     useEffect(() => {
         updateDisplayUrl(queryParams);
     }, [queryParams, baseUrl, updateDisplayUrl]);
 
+    //Normalizar URL ao enviar a requisição
     const handleRequest = async () => {
-        await makeRequest(method, baseUrl, requestData, queryParams, headers, normalizeUrl);
+        const normalizedUrl = normalizeUrl(baseUrl);
+        if (normalizedUrl !== baseUrl) {
+            setBaseUrl(normalizedUrl);
+        }
+
+        await makeRequest(method, normalizedUrl, requestData, queryParams, headers, normalizeUrl);
     };
 
     const handleUrlChange = (url: string) => {

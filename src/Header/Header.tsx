@@ -20,7 +20,7 @@ const Header = () => {
                         {theme === "light" ? <IoMoon /> : <IoSunny />}
                     </button>
                 </div>
-                <p className="text-sm text-muted-foreground unselectable">dongo</p>
+                <p className="text-sm text-muted-foreground unselectable">Dongo</p>
                 <div className="flex items-center gap-2">
                     {/* Controles da janela */}
                     <div className="flex items-center gap-1 ml-2 no-drag">
