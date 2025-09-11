@@ -16,6 +16,7 @@ const createWindow = () => {
         minHeight: 700,
         autoHideMenuBar: true,
         frame: false,
+        icon: path.join(__dirname, "../assets/icon.png"),
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             nodeIntegration: false,
@@ -26,15 +27,7 @@ const createWindow = () => {
     if (process.env.VITE_DEV_SERVER_URL) {
         win.loadURL(process.env.VITE_DEV_SERVER_URL);
     } else {
-        const isPackaged = app.isPackaged;
-
-        if (isPackaged) {
-            // Em produção empacotada
-            win.loadFile(path.join(__dirname, "../dist/index.html"));
-        } else {
-            // Em desenvolvimento
-            win.loadFile(path.join(__dirname, "../dist/index.html"));
-        }
+        win.loadFile(path.join(__dirname, "../dist/index.html"));
     }
 };
 
@@ -51,7 +44,7 @@ ipcMain.handle("make-request", async (event, { method, url, data, headers }) => 
                 "Content-Type": "application/json",
                 ...headers,
             },
-            timeout: 10000, // 10 segundos de timeout
+            timeout: 10000,
         });
 
         const endTime = Date.now();

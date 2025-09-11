@@ -4,6 +4,9 @@ const { FuseV1Options, FuseVersion } = require("@electron/fuses");
 module.exports = {
     packagerConfig: {
         asar: true,
+        ignore: ["^/src", "^/electron", "^/node_modules", "^/\\.git", "^/\\.vscode"],
+        extraResource: ["./dist", "./assets"],
+        icon: "./assets/icon",
     },
     rebuildConfig: {},
     makers: [

@@ -1,7 +1,7 @@
 {
     "name": "dongo",
     "private": true,
-    "version": "0.0.0",
+    "version": "0.1.0",
     "type": "module",
     "main": "dist-electron/main.js",
     "scripts": {
@@ -11,9 +11,9 @@
         "preview": "vite preview",
         "electron:dev": "npm run build && electron .",
         "electron:watch": "vite --watch",
-        "make": "electron-forge make",
+        "make": "npm run build && electron-forge make",
         "start": "electron-forge start",
-        "package": "electron-forge package"
+        "package": "npm run build && electron-forge package"
     },
     "dependencies": {
         "@radix-ui/react-scroll-area": "^1.2.10",
@@ -60,16 +60,21 @@
     "config": {
         "forge": {
             "packagerConfig": {
-                "asar": true
+                "asar": true,
+                "extraResource": [
+                    "./dist",
+                    "./assets"
+                ],
+                "icon": "./assets/icon"
             },
             "makers": [
                 {
                     "name": "@electron-forge/maker-squirrel",
                     "config": {
-                        "name": "dongo",
+                        "name": "Dongo",
                         "authors": "Marcus Coelho",
                         "description": "API client simples feito com Electron e React",
-                        "exe": "dongo.exe",
+                        "exe": "Dongo.exe",
                         "icon": "./assets/icon.ico"
                     }
                 },
