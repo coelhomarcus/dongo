@@ -1,5 +1,7 @@
-import { IoSettings, IoSunny, IoMoon, IoRemove, IoSquareOutline, IoClose } from "react-icons/io5";
-import { IoPaw } from "react-icons/io5";
+import { IoSunny, IoMoon, IoRemove, IoSquareOutline, IoClose } from "react-icons/io5";
+import { FaCat } from "react-icons/fa6";
+import { IoIosSettings } from "react-icons/io";
+
 import { useTheme, useWindow } from "../hooks";
 
 const Header = () => {
@@ -10,8 +12,8 @@ const Header = () => {
         <div className="bg-card h-[50px] border-b border-border drag-region">
             <div className="flex justify-between items-center h-full px-5">
                 <div className="flex items-center gap-3">
-                    <IoPaw className="w-5 h-5 text-muted-foreground" />
-                    <IoSettings className="w-5 h-5 text-muted-foreground cursor-pointer hover:text-foreground transition-colors no-drag" />
+                    <FaCat className="w-5 h-5 text-muted-foreground" />
+                    <IoIosSettings className="w-5 h-5 text-muted-foreground cursor-pointer hover:text-foreground transition-colors no-drag" />
                     <button
                         onClick={toggleTheme}
                         className="w-5 h-5 text-muted-foreground cursor-pointer hover:text-foreground transition-colors no-drag"
