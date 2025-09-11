@@ -3,6 +3,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import axios from "axios";
 
+import { updateElectronApp } from "update-electron-app";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -126,7 +128,14 @@ ipcMain.handle("window-is-maximized", () => {
     return win ? win.isMaximized() : false;
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+    updateElectronApp({
+        repo: "coelhomarcus/dongo",
+        updateInterval: "1 hour",
+    });
+
+    createWindow();
+});
 
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") app.quit();
