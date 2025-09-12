@@ -26,6 +26,10 @@ Está sendo muito divertido construir este projeto, e pretendo evoluí-lo até q
 - 🔐 Autenticação (Bearer Token, Basic Auth)
 - 🌐 Variáveis de ambiente
 
+### <img src="./README/home.png">
+
+### <img src="./README/homereq.png">
+
 ## 👨‍💻 Autor
 
 **Marcus Coelho**
